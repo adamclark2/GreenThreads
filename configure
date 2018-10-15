@@ -1,0 +1,3 @@
+#!/bin/bash
+
+. build-scripts/all-tests.mk.sh
