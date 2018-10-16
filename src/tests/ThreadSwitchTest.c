@@ -16,7 +16,15 @@ int subThread(int argc, char* argv[]){
 }
 
 /*!
-    printf("Hello WOrld\n"); and exit
+    Should do
+    1.
+    2.
+    3.
+    4.
+    5.
+    6.
+
+    In order
 */
 int main(int argc, char* argv[]){
     printf("1. Init:\n");
