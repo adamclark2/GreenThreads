@@ -22,4 +22,4 @@ void green_thread_init(void);
 */
 void create_thread(thread_func* t);
 
-static void gt_context_switch(struct gtThread* next, struct gtThread* cur);
+static void gt_context_switch(struct gtThread* next);

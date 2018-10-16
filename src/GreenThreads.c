@@ -16,14 +16,16 @@ void green_thread_init(void){
     snprintf(current->name, sizeof(current->name), "main");
     current->tid = ++maxTid;
     main = current;
-    setjmp(current->thread_context);
+    gt_context_switch(current);
 }
 
-static void gt_context_switch(struct gtThread* next, struct gtThread* cur){
-    if(setjmp(cur->thread_context) == 0){
+static void gt_context_switch(struct gtThread* next){
+    if(setjmp(current->thread_context) == 0){
         // Set context
         current = next;
         longjmp(current->thread_context, 1);
+    }else{
+        // Long-jumped
     }
 }
 
@@ -36,12 +38,12 @@ void create_thread(thread_func* t){
     new->tid = ++maxTid;
     snprintf(new->name, sizeof(current->name), "hi-%d", new->tid);
 
-    if(setjmp(current->thread_context) == 0){
-        struct gtThread* pre = current;
-        current = new;
-        setjmp(new->thread_context);
-        t(0, (char**) NULL);        
-    }else{
-        // Current was long-jumped
-    }
+    struct gtThread* pre = current;
+    gt_context_switch(current);
+
+    current = new;
+    t(0, (char**) NULL);
+
+    // t is done, go back to pre
+    gt_context_switch(pre); 
 }
